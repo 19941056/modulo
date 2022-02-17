@@ -1,0 +1,65 @@
+<odoo>
+    <data>
+
+        <menuitem name="Citas"
+                  id="appoint_mgmt_appointment_main_menu"
+                  sequence="1"
+                  web_icon="citas,static/src/img/icon.png"
+        />
+
+<!--        <menuitem name="Gestion de Citas"-->
+<!--                  id="appoint_mgmt_appointment_sub_menu"-->
+<!--                  parent="appoint_mgmt_appointment_main_menu"-->
+<!--                  sequence="2"-->
+<!--                  groups="base.group_user"-->
+<!--        />-->
+
+        <menuitem name="Nueva Cita"
+                  id="appoint_mgmt_book_appoint_menu"
+                  parent="appoint_mgmt_appointment_main_menu"
+                  action="citas.cit_mgmt_timeline_cits_action"
+                  sequence="1"
+                  groups="base.group_user"
+        />
+
+        <menuitem name="Lista de Citas"
+                  id="appoint_mgmt_appointment_analysis_sub_menu"
+                  parent="appoint_mgmt_appointment_main_menu"
+                  action="citas.cit_mgmt_book_cits_action"
+                  sequence="2"
+                  groups="base.group_user"
+        />
+
+        <!--        <menuitem name="Analisis de Citas"-->
+        <!--            id="appoint_mgmt_appoint_analysis_menu"-->
+        <!--            parent="appoint_mgmt_appointment_analysis_sub_menu"-->
+        <!--            action="wk_appointment.appoint_mgmt_appoint_analysis_action"-->
+        <!--            sequence="1"-->
+        <!--            groups="wk_appointment.appoint_mgmt_appointee_group"-->
+        <!--            />-->
+
+        <menuitem name="Configuración"
+                  id="appoint_mgmt_config_sub_menu"
+                  parent="appoint_mgmt_appointment_main_menu"
+                  sequence="3"
+                  groups="base.group_partner_manager"
+        />
+
+        <menuitem name="Ajustes"
+                  id="appoint_config_settings_menu"
+                  parent="citas.appoint_mgmt_config_sub_menu"
+                  action="citas.cits_config_settings_action"
+                  sequence="1"
+                  groups="base.group_partner_manager"
+        />
+
+        <menuitem name="Cabinas"
+                  id="hab_mgmt_cits_source_menu"
+                  parent="citas.appoint_mgmt_config_sub_menu"
+                  action="citas.hab_mgmt_cits_source_action"
+                  sequence="4"
+                  groups="base.group_user"
+        />
+
+    </data>
+</odoo>

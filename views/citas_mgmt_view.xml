@@ -1,0 +1,378 @@
+<odoo>
+    <data>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~ SCHEDULER ACTION ~~~~~~~~~~~~~~~~~~~~~~ -->
+        <record forcecreate="True" model="ir.cron" id="send_mail_for_reminder_scheduler">
+            <field name="name">Send Mail Reminder Scheduler</field>
+            <field name="model_id" ref="model_cits_admin"/>
+            <field name="state">code</field>
+            <field name="code">model.send_mail_for_reminder_scheduler_queue()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+            <field name="doall" eval="False"/>
+        </record>
+
+        <!-- ~~~~~~~~~~~~~~~~~ CALENDAR VIEW ~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <record model="ir.ui.view" id="cits_calendar_view">
+            <field name="name">Citas Calendar View</field>
+            <field name="model">cits.admin</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Administración de Citas" date_start="date_start" date_delay="duration"
+                          mode="week" color="appoint_employ_id" event_open_popup="true" quick_add="false">
+                </calendar>
+            </field>
+        </record>
+
+        <!-- ~~~~~~~~~~~~~~~~~ TIMELINE VIEW ~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <record model="ir.ui.view" id="cits_timeline_view">
+            <field name="model">cits.admin</field>
+            <field name="type">cits_timeline</field>
+            <field name="arch" type="xml">
+                <cits_timeline
+                        date_start="date_start"
+                        date_delay="duration"
+                        event_open_popup="false"
+                        tooltip="&lt;b&gt;Paciente: [customer]&lt;/b&gt;&lt;br /&gt;Servicio: [product_id]&lt;br /&gt;Fecha y Hora: [date_delay]"
+                        color="habitation">
+                    <field name="name"/>
+                    <field name="duration" invisible="1"/>
+                    <field name="customer" invisible="1"/>
+                    <field name="product_id" invisible="1"/>
+                    <field name="habitation" invisible="1"/>
+                    <field name="appoint_date" invisible="1"/>
+                    <field name="date_delay" invisible="1"/>
+                    <templates>
+                        <t t-name="TimelineView.item" modifiers="{}">
+                            <div modifiers="{}">
+                                <b>
+                                    <span t-esc="format(record, 'customer')" modifiers="{}"/>
+                                </b>
+                                <br/>
+                                <span t-esc="format(record, 'habitation')" modifiers="{}"/>
+                            </div>
+                        </t>
+                    </templates>
+                </cits_timeline>
+            </field>
+        </record>
+
+        <!-- ~~~~~~~~~~~~~~~~~ KANBAN VIEW ~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <record model="ir.ui.view" id="cits_kanban_view">
+            <field name="name">Citas Kanban View</field>
+            <field name="model">cits.admin</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="name"/>
+                    <field name="color"/>
+                    <field name="customer"/>
+                    <field name="date_start"/>
+                    <field name="duration"/>
+                    <field name="appoint_state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" role='button'>
+                                        <span class="fa fa-bars fa-lg" aria-label="Dropdown" title="Manage"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <li>
+                                            <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="o_kanban_record_top mb8">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <span>
+                                                <b>
+                                                    <t t-esc="record.name.value"/>
+                                                </b>
+                                            </span>
+                                        </strong>
+                                    </div>
+                                    <strong>
+                                        <field name="appoint_state" widget="label_selection"
+                                               options="{'classes': { 'pending': 'warning', 'approved': 'success', 'canceled': 'danger', 'done': 'default'}}"/>
+                                    </strong>
+                                </div>
+                                <div class="o_kanban_record_top mb8">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <i class="fa fa-user" aria-hidden="true" style="color:dimgray;"/>
+                                            <b>Paciente:</b>
+                                            <br/>
+                                            <span>
+                                                <t t-esc="record.customer.value"/>
+                                            </span>
+                                        </strong>
+                                    </div>
+                                    <strong>
+                                        <i class="fa fa-calendar" aria-hidden="true" style="margin:2px;"/>
+                                        Fecha y Hora:
+                                        <br/>
+                                        <t t-esc="record.date_start.value"/>
+                                    </strong>
+                                </div>
+                                <div class="o_kanban_record_top mb8">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <b>Especialista:</b>
+                                            <br/>
+                                            <span>
+                                                <field name="appoint_employ_id"/>
+                                            </span>
+                                        </strong>
+                                    </div>
+                                    <strong>
+                                        <i class="fa fa-clock-o" aria-hidden="true" style="margin:2px;"/>
+                                        Duración:
+                                        <field name="duration" widget="float_time"/>
+                                        <span>horas</span>
+                                    </strong>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TREE VIEW ~~~~~~~~~~~~~~~~ -->
+        <record model="ir.ui.view" id="cits_tree_view">
+            <field name="name">Citas Tree View</field>
+            <field name="model">cits.admin</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="False"/>
+            <field name="arch" type="xml">
+                <tree string="Administración de Citas"
+                      decoration-success="appoint_state=='approved'"
+                      decoration-warning="appoint_state=='pending'"
+                      decoration-info="appoint_state=='done'"
+                      decoration-danger="appoint_state=='canceled'">
+                    <field name="customer" string="Paciente"/>
+                    <field name="date_start" string="Fecha y Hora de la cita"/>
+                    <field name="duration" string="Duración en horas" widget="float_time"/>
+                    <field name="appoint_employ_id" string="Especialista"/>
+                    <field name="appoint_state" string="Estado de la cita"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FORM VIEW ~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <record model="ir.ui.view" id="cits_form_view">
+            <field name="name">Citas Form View</field>
+            <field name="model">cits.admin</field>
+            <field name="type">form</field>
+            <field name="priority" eval="False"/>
+            <field name="arch" type="xml">
+                <form string="Administración de Citas">
+                    <header>
+                        <button name="button_set_to_pending" class="oe_highlight" string="Cita Pendiente"
+                                title="Haga clic para establecer esta cita como pendiente"
+                                groups="base.group_user"
+                                type="object"
+                                attrs="{'invisible': ['|',('appoint_state', 'in',['pending','approved', 'canceled','done']),('id','=',False)]}"/>
+                        <button name="button_approve_appoint" class="oe_highlight" string="Confirmar cita"
+                                title="Haga clic para aprobar esta cita"
+                                groups="base.group_user"
+                                type="object"
+                                attrs="{'invisible': ['|',('appoint_state', 'in',['approved', 'canceled','done']),('id','=',False)]}"/>
+                        <button name="button_reject_appoint_action" class="oe_highlight" string="Cancelar cita"
+                                title="Haga clic para cancelar esta cita"
+                                groups="base.group_user"
+                                type="object"
+                                action="citas.cits_timeline_view"
+                                attrs="{'invisible': ['|','|',('appoint_state', 'in',['canceled','done']),('id','=',False)]}"/>
+                        <!-- <button name="button_done_appoint" class="oe_highlight" string="Cita completada"
+                                title="Haga clic para hacer el estado de la cita a completada."
+                                groups="base.group_user"
+                                type="object"
+                                attrs="{'invisible': [('appoint_state', 'in',['new','pending','canceled','done'])]}"/> -->
+                        <field name="appoint_state" widget="statusbar"
+                               statusbar_visible="new,pending,approved,canceled"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name" readonly="1" class="oe_left oe_title"/>
+                        </h1>
+                        <group string="" style="margin:0px;margin-bottom:0px;">
+                            <group string="">
+                                <field name="customer" string="Paciente" 
+                                       attrs="{'readonly':[('appoint_state','in',['done','canceled'])]}"
+                                       help="Customer for whom the appointment is to be booked."
+                                       domain="[('customer', '=', True)]" required="1" />
+                                <field name="appoint_employ_id" string="Especialista"
+                                       options="{ 'no_create': True}" required="1"
+                                       attrs="{'readonly':[('appoint_state','in',['done','canceled'])]}"
+                                        />
+                                <field name="product_id" string="Servicio"
+                                       options="{'no_create': True}" required="1"
+                                       attrs="{'readonly':[('appoint_state','in',['done','canceled'])]}"
+                                        />
+                                <!--                                       domain="[('categ_id.id', '=', 10)]"-->
+                            </group>
+                            <group>
+                                <field name="date_start" string="Fecha de la cita"
+                                       options='{"datepicker": {"daysOfWeekDisabled": [0]}}'
+                                       attrs="{'readonly':[('appoint_state','in',['done','canceled'])]}"
+                                       required="1"/>
+                                <label for="duration" string="Duración"/>
+                                <div>
+                                    <field name="duration" widget="float_time" class="oe_inline"
+                                           attrs="{'readonly':[('appoint_state','in',['done','canceled'])]}"
+                                           required="1"/>
+                                    <span> horas</span>
+                                </div>
+                                <field name="habitation" string="Cabina"
+                                       attrs="{'readonly':[('appoint_state','in',['done','canceled'])]}"
+                                       options="{ 'no_create': True}" groups="base.group_user"
+                                       required="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Otra Información">
+                                <group>
+                                    <group string="Notas">
+                                        <field name="description" colspan="2" padding-right="10px"
+                                               placeholder="Describe esta cita..." nolabel="1"
+                                               attrs="{'readonly':[('appoint_state','in',['done','canceled'])]}"/>
+                                        <div class="oe_clear"/>
+                                    </group>
+                                    <group string="Recordatorio">
+                                        <label for="enable_notify_reminder" string="Notificar por Email"/>
+                                        <div>
+                                            <field name="enable_notify_reminder" nolabel="1" class="oe_inline"
+                                                   attrs="{'readonly': [('appoint_state', 'in', ['done','canceled'])]}"/>
+                                            <label for="remind_time" string="Enviar recordatorio para esta cita"
+                                                   class="oe_inline"/>
+                                            <br/>
+                                            <field name="remind_time" nolabel="1" class="oe_inline"
+                                                   placeholder="Reminder Time.."
+                                                   attrs="{'required' : [('enable_notify_reminder','=', True)], 'invisible' : [('enable_notify_reminder', '=', False)], 'readonly': [('appoint_state', 'in', ['done','canceled'])] }"
+                                                   style="margin-right:5px;"/>
+                                            <field name="remind_in" nolabel="1" class="oe_inline"
+                                                   attrs="{'required' : [('enable_notify_reminder','=', True)], 'invisible' : [('enable_notify_reminder', '=', False)], 'readonly': [('appoint_state', 'in', ['done','canceled'])] }"
+                                            />
+                                        </div>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~ SEARCH VIEW ~~~~~~~~~~~~~~~~~~~~~~
+        <record model='ir.ui.view' id='cits_filter'>
+            <field name="name">Citas Filter View</field>
+            <field name="model">cits.admin</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Citas">
+                    <field name="appoint_state"/>
+                    <field name="date_start"/>
+                    <field name="name" string="Name" filter_domain="['|',('name','ilike',self),('name','=',self)]"/>
+                    <group string="Group By">
+                        <filter name="group_appoint_states_new" string="Pendiente"
+                                domain="[('appoint_state', '=', 'pending')]"/>
+                        <filter name="group_appoint_states_approved" string="Abrobada"
+                                domain="[('appoint_state', '=', 'approved')]"/>
+                        <filter name="group_appoint_states_canceled" string="Cancelada"
+                                domain="[('appoint_state', '=', 'canceled')]"/>
+                        <filter name="appoint_date_today" string="Hoy" domain="[('date_start', '=', current_date)]"/>
+                        <filter name="group_appoint_state" string="Estado" context="{'group_by': 'appoint_state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record> -->
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~ ACTION WINDOW TIMELINE~~~~~~~~~~~~~~~~~~~~~~ -->
+        <record model="ir.actions.act_window" id="cit_mgmt_timeline_cits_action">
+            <field name="name">Citas</field>
+            <field name="res_model">cits.admin</field>
+            <field name="view_mode">cits_timeline</field>
+            <field name="context">{'default_name': 'New'}</field>
+            <field name="context">{'group_by': ['appoint_employ_id']}</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+                <p>
+                    Here is a list of all the Appointments created. You
+                    can click on any record to get the detailed Information About these appointments.
+                </p>
+            </field>
+        </record>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~ ACTION WINDOW ~~~~~~~~~~~~~~~~~~~~~~ -->
+        <record model="ir.actions.act_window" id="cit_mgmt_book_cits_action">
+            <field name="name">Citas</field>
+            <field name="res_model">cits.admin</field>
+            <field name="view_mode">tree,kanban,calendar,form</field>
+            <field name="context">{'default_name': 'New'}</field>
+            <field name="domain">[["name", "!=", False]]</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+                <p>
+                    Here is a list of all the Appointments created. You
+                    can click on any record to get the detailed Information About these appointments.
+                </p>
+            </field>
+        </record>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~ HABITATIONS SOURCE~~~~~~~~~~~~~~~~~~~~~~ -->
+        <record model="ir.ui.view" id="hab_mgmt_cits_source_tree_view">
+            <field name="name">Gestión de Cabinas Tree</field>
+            <field name="model">habitations.source</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Habitations Source Tree" editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="hab_mgmt_cits_source_action">
+            <field name="name">Gestión de Cabinas</field>
+            <field name="res_model">habitations.source</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+                <p>
+                    Here is a list of all the Habitations Sources created. You
+                    can click on any record to get the detailed Information About these Sources.
+                </p>
+            </field>
+        </record>
+
+	<!-- partner form view inherited -->
+        <record id="datos_citas_form" model="ir.ui.view">
+            <field name="name">view.datos.citas.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <data>
+                    <div name="button_box" position="inside">
+                        <button class="oe_stat_button"
+                                icon="fa-book"
+                                name="action_get_citas_tree_view"
+                                type="object">
+                            <field name="count_cits" widget="statinfo" string="Citas"/>
+                        </button>
+                    </div>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</odoo>

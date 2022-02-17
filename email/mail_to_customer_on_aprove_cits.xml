@@ -1,0 +1,124 @@
+<odoo>
+    <data noupdate="1">
+
+        <!--Mail to customer on new appointment -->
+        <record id="appoint_mgmt_new_appoint_mail_to_customer" model="mail.template">
+            <field name="name">Enviar por correo al paciente en una nueva cita</field>
+            <field name="email_from">${object.create_uid.company_id.partner_id.email or '' | safe}</field>
+            <field name="subject">Nueva cita creada con éxito en ${object.create_uid.company_id.name}</field>
+            <field name="email_to">${object.customer.email or '' | safe}</field>
+            <field name="email_cc">${object.create_uid.company_id.partner_id.email or '' | safe}</field>
+            <field name="model_id" ref="citas.model_cits_admin"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html"><![CDATA[
+                    <p>Estimada(o) ${object.customer.name} , </p>
+                        <br/>
+                        <p>Se ha generado con éxito una nueva solicitud de cita.</p>
+                        <p>Espere mientras se actualiza el estado de esta cita.</p>
+                        <br/>
+                        <b>Fecha y Hora :</b> ${format_tz(object.date_start,'Europe/Madrid','%d/%m/%Y %H:%M')}
+                        % if object.time_slot:
+                         <b>Time :</b> ${object.time_slot.name}
+                        % endif
+                        <b>Citas con:  </b> ${object.appoint_employ_id.name | safe}
+                        <br/>
+                        <p>Gracias,</p>
+
+                        <p>(${object.create_uid.company_id.name})</p>
+             ]]>
+            </field>
+        </record>
+
+        <!-- Mail to admin on approve appointment -->
+        <record id="appoint_mgmt_new_appoint_mail_to_admin" model="mail.template">
+            <field name="name">Envíe por correo al administrador en una nueva cita</field>
+            <field name="email_from">${object.customer.email or '' | safe}</field>
+            <field name="email_to">${object.create_uid.company_id.partner_id.email or '' | safe}</field>
+            <field name="subject">Nueva cita creada</field>
+            <field name="email_cc">${object.create_uid.company_id.partner_id.email or '' | safe}</field>
+            <field name="model_id" ref="citas.model_cits_admin"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html"><![CDATA[
+              <p>Estimada(o) ${object.customer.name} , </p>
+                        <br/>
+                        <p>Se ha generado con éxito una nueva solicitud de cita.</p>
+                        <p>Por favor actualice el estado de esta cita..</p>
+                        <br/>
+                        <b>Fecha y Hora :</b> ${format_tz(object.date_start,'Europe/Madrid','%d/%m/%Y %H:%M')}
+                        % if object.time_slot:
+                         <b>Time :</b> ${object.time_slot.name}
+                        % endif
+                        <b>Cita con:  </b> ${object.appoint_employ_id.name | safe}
+                        <br/>
+                        <p>Gracias,</p>
+                        <p>(${object.create_uid.company_id.name})</p>
+             ]]>
+            </field>
+        </record>
+
+        <!--Mail to customer on approve appointment -->
+        <record id="appoint_mgmt_email_template_to_customer" model="mail.template">
+            <field name="name">Correo al paciente al aprobar cita</field>
+            <field name="email_from">${object.create_uid.company_id.partner_id.email or '' | safe}</field>
+            <field name="subject">Cita confirmada en ${object.create_uid.company_id.name}</field>
+            <field name="email_to">${object.customer.email or '' | safe}</field>
+            <field name="email_cc">${object.create_uid.company_id.partner_id.email or '' | safe}</field>
+            <field name="model_id" ref="citas.model_cits_admin"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html"><![CDATA[
+              <p>Estimada(o) ${object.customer.name} , </p>
+                        <br/>
+                        <p>Su cita en ${object.create_uid.company_id.name} se ha registado.</p>
+                        <p>Por favor sea puntual.</p>
+                        <br/>
+                        <b>Fecha y Hora :</b> ${format_tz(object.date_start,'Europe/Madrid','%d/%m/%Y %H:%M')}
+                        % if object.time_slot:
+                         <b>Time :</b> ${object.time_slot.name}
+                        % endif
+                        <b>Cita con:  </b> ${object.appoint_employ_id.name | safe}
+                        <br/>
+                        <p>Puede responder a este correo electrónico si tiene alguna pregunta..</p><br/>
+                        <p>Gracias,</p>
+
+                        <p style="color:black;"><i>
+                        % if object.appoint_employ_id.user_id.name:
+                            ${object.appoint_employ_id.user_id.name | safe}
+                        % endif
+                    </i></p>
+                        <p>(${object.create_uid.company_id.name})</p>
+
+             ]]>
+            </field>
+        </record>
+
+        <record id="appoint_mgmt_reject_email_template_to_customer" model="mail.template">
+            <field name="name">Correo al paciente al cancelar cita</field>
+            <field name="email_from">${object.create_uid.company_id.partner_id.email or '' | safe}</field>
+            <field name="subject">Cita cancelada en ${object.create_uid.company_id.name}</field>
+            <field name="email_to">${object.customer.email or '' | safe}</field>
+            <field name="email_cc">${object.create_uid.company_id.partner_id.email or '' | safe}</field>
+            <field name="model_id" ref="citas.model_cits_admin"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html"><![CDATA[
+              <p>Estimada(o) ${object.customer.name} , </p>
+                        <br/>
+                        <p>Su cita ha sido cancelada debido a ${object.cancel_reason}.</p>
+                        <p>Puede responder a este correo electrónico con respecto a cualquier consulta.</p><br/>
+                        <p>Gracias,</p>
+                        <p style="color:black;"><i>
+                        % if object.appoint_employ_id.user_id.name:
+                            ${object.appoint_employ_id.user_id.name | safe}
+                        % endif
+                    </i></p>
+                        <p>(${object.create_uid.company_id.name})</p>
+
+             ]]>
+            </field>
+        </record>
+
+    </data>
+</odoo>

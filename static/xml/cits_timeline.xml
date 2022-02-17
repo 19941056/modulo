@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+
+    <div t-name="TimelineView" class="o_timeline_container">
+        <div class="o_timeline_widget"/>
+    </div>
+
+<!--    <t t-name="TimelineView.item">-->
+<!--        <div class="o_fields">-->
+<!--            <t t-as="name" t-foreach="widget.displayFields">-->
+<!--                <div t-attf-class="o_field_#{name} o_field_type_#{fields[name].type}">-->
+<!--                    <t t-esc="format(record, name)"/>-->
+<!--                </div>-->
+<!--            </t>-->
+<!--        </div>-->
+<!--    </t>-->
+
+    <t t-name="TimelineView.buttons">
+        <div class="o_timeline_buttons">
+            <button class="o_timeline_button_prev btn btn-sm btn-primary">
+                <span class="fa fa-arrow-left"/>
+            </button>
+            <button class="o_timeline_button_today btn btn-sm btn-primary">Today</button>
+            <button class="o_timeline_button_next btn btn-sm btn-primary">
+                <span class="fa fa-arrow-right"/>
+            </button>
+            <div class="btn-group btn-group-sm">
+                <button class="o_timeline_button_day btn btn-sm btn-default" type="button" value="day">Day</button>
+                <button class="o_timeline_button_week btn btn-sm btn-default" type="button" value="week">Week</button>
+                <button class="o_timeline_button_month btn btn-sm btn-default" type="button" value="month">Month</button>
+                <button class="o_timeline_button_year btn btn-sm btn-default" type="button" value="year">Year</button>
+            </div>
+        </div>
+    </t>
+
+</template>

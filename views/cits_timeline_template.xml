@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="assets_backend" name="cits_timeline assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/citas/static/src/css/cits_timeline.css"/>
+
+            <script type="text/javascript" src="/citas/static/lib/js/vis.js"/>
+            <script type="text/javascript" src="/citas/static/src/js/cits_timeline_view.js"/>
+            <script type="text/javascript" src="/citas/static/src/js/cits_timeline_renderer.js"/>
+            <script type="text/javascript" src="/citas/static/src/js/cits_timeline_controller.js"/>
+            <script type="text/javascript" src="/citas/static/src/js/cits_timeline_model.js"/>
+        </xpath>
+    </template>
+
+</odoo>

@@ -1,0 +1,138 @@
+<odoo>
+    <data>
+
+        <record id="cits_config_settings_form" model="ir.ui.view">
+            <field name="name">Appoint Config Settings</field>
+            <field name="model">cits.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configuration" class="">
+                    <header class="col-md-12">
+                        <button string="Aplicar" type="object" name="execute" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" type="object" name="cancel" class="oe_light"/>
+                    </header>
+                    <h2 style="background-color: rgba(211, 211, 211, 0.15);padding:5px;margin-left: -15px;margin-right: -15px;">
+                        Configuración de Notificaciones por Email
+                    </h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box"
+                             title="Habilite para enviar correo al paciente en una nueva cita">
+                            <div class="o_setting_left_pane">
+                                <field name="enable_notify_customer_on_new_appoint"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="enable_notify_customer_on_new_appoint"
+                                       string="Enviar correo al paciente con una nueva cita"/>
+                                <div class="content-group">
+                                    <div class="row mt8">
+                                        <label string="Plantilla de correo electrónico"
+                                               for="notify_customer_on_new_appoint"
+                                               class="col-md-3 o_light_label"
+                                               attrs="{'invisible': [('enable_notify_customer_on_new_appoint', '=', False)]}"/>
+                                        <field name="notify_customer_on_new_appoint" attrs="{'invisible': [('enable_notify_customer_on_new_appoint', '=', False)],
+                                            'required': [('enable_notify_customer_on_new_appoint', '=', True)]}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <newline/>
+                        <br/>
+                        <div class="col-xs-12 col-md-6 o_setting_box"
+                             title="Habilite para enviar correo al administrador en una nueva cita">
+                            <div class="o_setting_left_pane">
+                                <field name="enable_notify_admin_on_new_appoint"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="enable_notify_admin_on_new_appoint"
+                                       string="Enviar correo al administrador en una nueva cita"/>
+                                <div class="content-group">
+                                    <div class="row mt8">
+                                        <label string="Plantilla de correo electrónico"
+                                               for="notify_admin_on_new_appoint"
+                                               class="col-md-3 o_light_label"
+                                               attrs="{'invisible': [('enable_notify_admin_on_new_appoint', '=', False)]}"/>
+                                        <field name="notify_admin_on_new_appoint" attrs="{'invisible': [('enable_notify_admin_on_new_appoint', '=', False)],
+                                            'required': [('enable_notify_admin_on_new_appoint', '=', True)]}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <newline/>
+                        <br/>
+                        <div class="col-xs-12 col-md-6 o_setting_box"
+                             title="Habilite para enviar un recordatorio por correo antes de la cita.">
+                            <div class="o_setting_left_pane">
+                                <field name="enable_notify_reminder"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="enable_notify_reminder" string="Recordatorio por correo para la cita"/>
+                                <div class="content-group">
+                                    <div class="row mt8">
+                                        <label string="Plantilla de correo electrónico"
+                                               for="notify_reminder_mail_template"
+                                               class="col-md-3 o_light_label"
+                                               attrs="{'invisible': [('enable_notify_reminder', '=', False)]}"/>
+                                        <field name="notify_reminder_mail_template" attrs="{'invisible': [('enable_notify_reminder', '=', False)],
+                                            'required': [('enable_notify_reminder', '=', True)]}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <newline/>
+                        <br/>
+                        <div class="col-xs-12 col-md-6 o_setting_box"
+                             title="Habilitar para enviar correo en la confirmación de la cita">
+                            <div class="o_setting_left_pane">
+                                <field name="enable_notify_customer_on_approve_appoint"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="enable_notify_customer_on_approve_appoint"
+                                       string="Enviar correo en la confirmación de la cita"/>
+                                <div class="content-group">
+                                    <div class="row mt8">
+                                        <label string="Plantilla de correo electrónico"
+                                               for="notify_customer_on_approve_appoint"
+                                               class="col-md-3 o_light_label"
+                                               attrs="{'invisible': [('enable_notify_customer_on_approve_appoint', '=', False)]}"/>
+                                        <field name="notify_customer_on_approve_appoint" attrs="{'invisible': [('enable_notify_customer_on_approve_appoint', '=', False)],
+                                            'required': [('enable_notify_customer_on_approve_appoint', '=', True)]}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <newline/>
+                        <br/>
+                        <div class="col-xs-12 col-md-6 o_setting_box"
+                             title="Habilitar para enviar correo al cancelar la cita">
+                            <div class="o_setting_left_pane">
+                                <field name="enable_notify_customer_on_reject_appoint"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="enable_notify_customer_on_reject_appoint"
+                                       string="Enviar correo al cancelar cita"/>
+                                <div class="content-group">
+                                    <div class="row mt8">
+                                        <label string="Plantilla de correo electrónico"
+                                               for="notify_customer_on_reject_appoint"
+                                               class="col-md-3 o_light_label"
+                                               attrs="{'invisible': [('enable_notify_customer_on_reject_appoint', '=', False)]}"/>
+                                        <field name="notify_customer_on_reject_appoint" attrs="{'invisible': [('enable_notify_customer_on_reject_appoint', '=', False)],
+                                            'required': [('enable_notify_customer_on_reject_appoint', '=', True)]}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="cits_config_settings_action" model="ir.actions.act_window">
+            <field name="name">Appointment Configuration Settings</field>
+            <field name="res_model">cits.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+    </data>
+</odoo>

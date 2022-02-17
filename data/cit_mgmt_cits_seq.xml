@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <!-- Sequence for appointment -->
+        <record model="ir.sequence" id="cit_mgmt_cits_seq">
+            <field name="name">Sequencia de citas</field>
+            <field name="code">cits.admin</field>
+            <field name="prefix">CIT/%(range_year)s/</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</odoo>

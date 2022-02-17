@@ -1,0 +1,49 @@
+<odoo>
+    <data noupdate="1">
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~ Habitations Source ~~~~~~~~~~~~~~~~~~~ -->
+        <record id="hab_source1" model="habitations.source">
+            <field name="name">Consultorio 1</field>
+        </record>
+
+        <record id="hab_source2" model="habitations.source">
+            <field name="name">Consultorio 2</field>
+        </record>
+
+        <record id="hab_source3" model="habitations.source">
+            <field name="name">Consultorio 3</field>
+        </record>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~ Notification Service ~~~~~~~~~~~~~~~~~~~ -->
+        <function id="cit_set_enable_notify_reminder" model="ir.default"
+                  name="set" eval="('cits.config.settings', 'enable_notify_reminder', True)"/>
+
+        <function id="cit_set_notify_reminder_mail_template" model="ir.default"
+                  name="set" eval="('cits.config.settings', 'notify_reminder_mail_template', False)"/>
+
+        <function id="cit_set_notify_customer_on_approve_appoint" model="ir.default"
+                  name="set" eval="('cits.config.settings', 'notify_customer_on_approve_appoint', False)"/>
+
+        <function id="cit_set_enable_appoint_approve_mail" model="ir.default"
+                  name="set" eval="('cits.config.settings', 'enable_notify_customer_on_approve_appoint', True)"/>
+
+        <function id="cit_set_notify_customer_on_reject_appoint" model="ir.default"
+                  name="set" eval="('cits.config.settings', 'notify_customer_on_reject_appoint', False)"/>
+
+        <function id="cit_set_enable_appoint_reject_mail" model="ir.default"
+                  name="set" eval="('cits.config.settings', 'enable_notify_customer_on_reject_appoint', True)"/>
+
+        <function id="cit_set_notify_customer_on_new_appoint" model="ir.default"
+                  name="set" eval="('cits.config.settings', 'notify_customer_on_new_appoint', False)"/>
+
+        <function id="cit_set_enable_notify_customer_on_new_appoint" model="ir.default"
+                  name="set" eval="('cits.config.settings', 'enable_notify_customer_on_new_appoint', True)"/>
+
+        <function id="cit_set_notify_admin_on_new_appoint" model="ir.default"
+                  name="set" eval="('cits.config.settings', 'notify_admin_on_new_appoint', False)"/>
+
+        <function id="cit_set_enable_notify_admin_on_new_appoint" model="ir.default"
+                  name="set" eval="('cits.config.settings', 'enable_notify_admin_on_new_appoint', True)"/>
+
+    </data>
+</odoo>

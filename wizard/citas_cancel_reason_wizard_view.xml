@@ -1,0 +1,34 @@
+<odoo>
+    <data>
+
+        <record id="citas_cancel_addreason_wizard_form_view" model="ir.ui.view">
+            <field name="name">Addreason to Cancel Wizard FormView</field>
+            <field name="model">cits.cancelreason.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Add a Reason for Cancellation">
+                    <group>
+                        <group>
+                            <field name="add_reason" placeholder="Mention reason here..." nolabel="1" required="1"/>
+                        </group>
+                    </group>
+                    <newline/>
+                    <footer>
+                        <button name="button_addreason" class="oe_highlight" type="object" string="Save"/>
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="citas_cancel_addreason_wizard_action" model="ir.actions.act_window">
+            <field name="name">Add Cancel Reason</field>
+            <field name="res_model">cits.cancelreason.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="citas_cancel_addreason_wizard_form_view"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>
