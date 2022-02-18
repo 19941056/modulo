@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+from email.policy import default
 import math
 from datetime import date, time, datetime, timedelta
+from multiprocessing.dummy import active_children
 
 from odoo import models, fields, api, _
 from odoo.tools import relativedelta, UserError, float_round
@@ -55,6 +57,8 @@ class CitsAdmin(models.Model):
                                                            'notify_customer_on_reject_appoint')
                                                        )
     cancel_reason = fields.Char("Cancel Reason")
+
+    active = fields.Boolean('Active',default="True")
 
     @api.depends('date_start')
     def _fecha_corta(self):
@@ -386,3 +390,5 @@ class ResPartner(models.Model):
         action['domain'] = [('customer', '=', self.id)]
         action['context'] = {'default_partner_id': self.id}
         return action
+
+

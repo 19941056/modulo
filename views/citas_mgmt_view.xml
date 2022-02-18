@@ -197,6 +197,8 @@
                                statusbar_visible="new,pending,approved,canceled"/>
                     </header>
                     <sheet>
+                    <widget name='web_ribbon' title='Archivado' background-color='bg-danger'
+                    attrs="('invisible': [('active', '=', True)])" />
                         <h1>
                             <field name="name" readonly="1" class="oe_left oe_title"/>
                         </h1>
@@ -273,7 +275,7 @@
             </field>
         </record>
 
-        <!-- ~~~~~~~~~~~~~~~~~~~~~~ SEARCH VIEW ~~~~~~~~~~~~~~~~~~~~~~
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~ SEARCH VIEW ~~~~~~~~~~~~~~~~~~~~~~-->
         <record model='ir.ui.view' id='cits_filter'>
             <field name="name">Citas Filter View</field>
             <field name="model">cits.admin</field>
@@ -292,10 +294,12 @@
                                 domain="[('appoint_state', '=', 'canceled')]"/>
                         <filter name="appoint_date_today" string="Hoy" domain="[('date_start', '=', current_date)]"/>
                         <filter name="group_appoint_state" string="Estado" context="{'group_by': 'appoint_state'}"/>
+                        
+                        <filter string='Archivado' name='inactive' domain="[('active', '=', False)]" />
                     </group>
                 </search>
             </field>
-        </record> -->
+        </record> 
 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~ ACTION WINDOW TIMELINE~~~~~~~~~~~~~~~~~~~~~~ -->
         <record model="ir.actions.act_window" id="cit_mgmt_timeline_cits_action">
@@ -354,7 +358,7 @@
             </field>
         </record>
 
-	<!-- partner form view inherited -->
+    <!-- partner form view inherited -->
         <record id="datos_citas_form" model="ir.ui.view">
             <field name="name">view.datos.citas.form</field>
             <field name="model">res.partner</field>
